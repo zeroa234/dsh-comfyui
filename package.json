@@ -1,6 +1,6 @@
 {
   "name": "@dsh-external/dsh-comfyui",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "ComfyUI 驱动器（AI-first 合同制）：模型只见合同槽、不见工作流 JSON。文生图/图生图/文生视频/图生视频模板，双重预检防幻觉，官方/自定义节点活体判定。",
   "type": "module",
   "main": "./lib/index.js",

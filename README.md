@@ -17,11 +17,12 @@ Image-to-image · text-to-image · image-to-video · text-to-video: scan a workf
 
 | 工具 Tool（注册名 Registration name） | 说明 Description |
 |---|---|
-| `_dsh_external_dsh_comfyui_list` | 连通状态 + 模板清单（先看 media/mode/can/cannot 再动手）Connectivity + template list (match media/mode before acting) |
-| `_dsh_external_dsh_comfyui_inspect` | 单个模板的槽 / LoRA 坑 / media / cannot，`query` 搜模型文件名 One template's slots / LoRA pits / media / cannot; `query` searches model filenames |
-| `_dsh_external_dsh_comfyui_generate` | 按合同填槽提交。图/视频/音频只传本地路径，`wait_s=0` 立即返回 job_id Submit by contract. Media inputs take local paths; `wait_s=0` returns a job_id immediately |
+| `_dsh_external_dsh_comfyui_list` | 连通状态 + 模板清单（media/mode/can/cannot + 用户写的 `user_note`）Connectivity + template list (media/mode plus user notes for the model) |
+| `_dsh_external_dsh_comfyui_inspect` | 单个模板的槽 / LoRA 坑 / `prompt_style` / `user_note`，`query` 搜模型文件名 One template's slots / LoRA pits / prompt style / user notes; `query` searches model filenames |
+| `_dsh_external_dsh_comfyui_generate` | 按合同填槽提交。遵守 `user_note` 与 `prompt_style`（自然语言 vs tag）。图/视频/音频只传本地路径 Submit by contract. Follow user notes and prompt style. Media inputs take local paths |
 | `_dsh_external_dsh_comfyui_job` | 查询 / 等待 / 取消任务；成品只返回磁盘路径 Query / wait / cancel jobs; outputs are disk paths |
 | `_dsh_external_dsh_comfyui_import` | 扫描 / 导入本地 API Format JSON 为新模板（默认只扫描不落盘）Scan / import a local API-format JSON as a template (preview-only by default) |
+| `_dsh_external_dsh_comfyui_lora` | LoRA 注册表：`list` / `register` / `remove` 触发词与用法注释（与设置页同一张表）LoRA registry: list/register/remove trigger words and usage notes (same table as Settings) |
 
 ## 核心设计 · Core design
 
@@ -79,9 +80,9 @@ npm install
 dsh plugin --profile web add .
 ```
 
-安装后重启 harness，新会话的工具列表里就会出现 `_dsh_external_dsh_comfyui_*` 五个工具（bundle 自带的 `cordis.patch.yml` 会写入默认 baseUrl/outputDir）。
+安装后重启 harness，新会话的工具列表里就会出现 `_dsh_external_dsh_comfyui_*` 六个工具（bundle 自带的 `cordis.patch.yml` 会写入默认 baseUrl/outputDir）。设置页改动需要再重启一次才能刷新客户端打包。
 
-After a harness restart, the five `_dsh_external_dsh_comfyui_*` tools appear in new sessions; the bundle's own `cordis.patch.yml` applies the default baseUrl/outputDir.
+After a harness restart, the six `_dsh_external_dsh_comfyui_*` tools appear in new sessions; the bundle's own `cordis.patch.yml` applies the default baseUrl/outputDir. Settings UI changes need another restart to rebuild the client bundle.
 
 ## 配置 · Configuration
 
@@ -101,14 +102,14 @@ After a harness restart, the five `_dsh_external_dsh_comfyui_*` tools appear in 
     outputDir: 'E:\agent\output\comfyui'
 ```
 
-另有浏览器设置页（**设置 → ComfyUI**）：改地址、LoRA 触发词（`mode=仅模型` 不写进提示词，适合 turbo）、**导入工作流**（API Format JSON，默认只扫描预览）。`user-settings.json` 保存在 `templates/` 下。
+另有浏览器设置页（**设置 → ComfyUI**）：改地址、**模板/LoRA 注释**（写给模型看：底模、自然语言还是 tag、LoRA 特殊用法）、LoRA 触发词（`mode=仅模型` 不写进提示词，适合 turbo；可从 ComfyUI 文件列表添加/删除）、**导入工作流**（API Format JSON，默认只扫描预览）。`user-settings.json` 保存在 `templates/` 下（gitignored）。`list` / `inspect` 会带上 `user_note`。
 
-A browser settings page (Settings → ComfyUI) manages the address, LoRA trigger words (`model-only` mode keeps words out of the prompt, good for turbo), and workflow import (preview-only by default), persisted to `templates/user-settings.json`.
+A browser settings page (Settings → ComfyUI) manages the address, **per-template and per-LoRA notes for the model** (checkpoint, natural language vs tags, LoRA quirks), LoRA trigger words (`model-only` keeps words out of the prompt, good for turbo; add/remove from the ComfyUI file list), and workflow import (preview-only by default), persisted to gitignored `templates/user-settings.json`. `list` / `inspect` surface `user_note`.
 
 ## 测试 · Tests
 
 ```bash
-npm test   # node:test（零依赖），16 用例覆盖 graph 助手/合同读取/LoRA 触发词/扫描/官方节点分类
+npm test   # node:test（零依赖），覆盖 graph 助手/合同读取/LoRA 触发词与注释/扫描/官方节点分类
 ```
 
 > `tests/templates/` 之外无需任何外部依赖；官方节点分类测试直接读生成的 `official-nodes.json`，并验证活体 `officialClasses` 覆盖优先。
@@ -138,7 +139,7 @@ dsh-comfyui/
 │       ├── scan.js             # 工作流 → 合同扫描器 · Workflow → contract scanner
 │       ├── graph.js            # 纯图助手（填槽/别名/绕过 LoRA）· Pure graph helpers
 │       ├── templates.js        # 合同读写 · Contract I/O
-│       ├── store.js            # LoRA 触发词设置 · LoRA trigger-word settings
+│       ├── store.js            # LoRA 触发词 + 模板/LoRA 用户注释 · Trigger words and user notes
 │       ├── import-template.js  # 扫描/保存模板 · Template import
 │       ├── http.js             # ComfyUI HTTP 客户端（fetch）· HTTP client
 │       └── official-nodes.json # 官方节点离线清单（脚本生成）· Offline official-node list (generated)
