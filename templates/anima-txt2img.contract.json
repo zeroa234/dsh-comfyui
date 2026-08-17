@@ -1,0 +1,51 @@
+{
+  "id": "anima-txt2img",
+  "title": "Anima 文生图（加速 LoRA）",
+  "workflow": "anima-txt2img.json",
+  "prompt_style": "natural_en",
+  "prompt_hint": "Full English sentences of who/what/doing. Do not use 1girl/danbooru tags. This is an anime (Anima) base, not photoreal.",
+  "capabilities": {
+    "mode": ["t2i"],
+    "style": ["anime"],
+    "can": ["prompt", "lora_switch", "size", "seed"],
+    "cannot": ["i2i", "upscale", "logo", "photoreal_checkpoint"]
+  },
+  "slots": {
+    "prompt": { "key": "prompt", "type": "text", "required": true, "node": "24", "field": "string" },
+    "negative": { "key": "negative", "type": "text", "required": false, "node": "25", "field": "string" },
+    "width": { "key": "width", "type": "number", "required": false, "node": "36", "field": "string", "as_string": true },
+    "height": { "key": "height", "type": "number", "required": false, "node": "39", "field": "string", "as_string": true },
+    "turbo_strength": { "key": "turbo_strength", "type": "number", "required": false, "node": "45", "field": "string", "as_string": true },
+    "seed": { "key": "seed", "type": "seed", "required": false, "node": "46", "field": "seed" },
+    "steps": { "key": "steps", "type": "number", "required": false, "node": "10", "field": "steps" },
+    "cfg": { "key": "cfg", "type": "number", "required": false, "node": "10", "field": "cfg" },
+    "denoise": { "key": "denoise", "type": "number", "required": false, "node": "10", "field": "denoise" }
+  },
+  "loras": [
+    {
+      "key": "quality",
+      "role": "quality",
+      "node": "26",
+      "nameField": "lora_name",
+      "strengthField": "strength_model",
+      "clipStrengthField": "strength_clip",
+      "default_name": "anima-base-1-masterpiece-v51.safetensors"
+    },
+    {
+      "key": "speed",
+      "role": "speed",
+      "node": "29",
+      "nameField": "lora_name",
+      "strengthNode": "45",
+      "strengthField": "string",
+      "default_name": "anima-turbo-lora-v0.2.safetensors"
+    }
+  ],
+  "models": {
+    "unet": { "key": "unet", "node": "11", "field": "unet_name" },
+    "clip": { "key": "clip", "node": "5", "field": "clip_name" },
+    "clip_type": { "key": "clip_type", "node": "5", "field": "type" },
+    "vae": { "key": "vae", "node": "4", "field": "vae_name" }
+  },
+  "notes": "Only two LoRA pits. To add 美化/character LoRA: replace quality, or add a LoraLoader in ComfyUI then re-export. 1080p: set width/height (snapped to 8), this is not an upscale node."
+}

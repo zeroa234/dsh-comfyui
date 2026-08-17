@@ -1,0 +1,4 @@
+node_modules/
+output/
+*.tgz
+templates/user-settings.json

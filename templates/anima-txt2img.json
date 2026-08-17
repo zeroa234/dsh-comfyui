@@ -1,0 +1,321 @@
+{
+  "3": {
+    "inputs": {
+      "filename_prefix": "ComfyUI",
+      "images": [
+        "9",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "保存图像"
+    }
+  },
+  "4": {
+    "inputs": {
+      "vae_name": "qwen_image_vae.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "加载VAE"
+    }
+  },
+  "5": {
+    "inputs": {
+      "clip_name": "qwen_3_06b_base.safetensors",
+      "type": "qwen_image",
+      "device": "default"
+    },
+    "class_type": "CLIPLoader",
+    "_meta": {
+      "title": "加载CLIP"
+    }
+  },
+  "9": {
+    "inputs": {
+      "samples": [
+        "10",
+        0
+      ],
+      "vae": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE解码"
+    }
+  },
+  "10": {
+    "inputs": {
+      "seed": [
+        "46",
+        0
+      ],
+      "steps": 8,
+      "cfg": 1,
+      "sampler_name": "sa_solver_pece",
+      "scheduler": "kl_optimal",
+      "denoise": 1,
+      "model": [
+        "29",
+        0
+      ],
+      "positive": [
+        "19",
+        0
+      ],
+      "negative": [
+        "20",
+        0
+      ],
+      "latent_image": [
+        "32",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "K采样器"
+    }
+  },
+  "11": {
+    "inputs": {
+      "unet_name": "anima_baseV10.safetensors",
+      "weight_dtype": "default"
+    },
+    "class_type": "UNETLoader",
+    "_meta": {
+      "title": "UNet加载器"
+    }
+  },
+  "19": {
+    "inputs": {
+      "text": [
+        "40",
+        0
+      ],
+      "clip": [
+        "26",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP文本编码"
+    }
+  },
+  "20": {
+    "inputs": {
+      "text": [
+        "42",
+        0
+      ],
+      "clip": [
+        "26",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP文本编码"
+    }
+  },
+  "24": {
+    "inputs": {
+      "string": "{{tags}}, {{natural language}}"
+    },
+    "class_type": "Simple String",
+    "_meta": {
+      "title": "正面提示词"
+    }
+  },
+  "25": {
+    "inputs": {
+      "string": ""
+    },
+    "class_type": "Simple String",
+    "_meta": {
+      "title": "负面提示词"
+    }
+  },
+  "26": {
+    "inputs": {
+      "lora_name": "anima-base-1-masterpiece-v51.safetensors",
+      "strength_model": 1,
+      "strength_clip": 1,
+      "model": [
+        "11",
+        0
+      ],
+      "clip": [
+        "5",
+        0
+      ]
+    },
+    "class_type": "LoraLoader",
+    "_meta": {
+      "title": "加载LoRA"
+    }
+  },
+  "29": {
+    "inputs": {
+      "lora_name": "anima-turbo-lora-v0.2.safetensors",
+      "strength_model": [
+        "44",
+        0
+      ],
+      "model": [
+        "26",
+        0
+      ]
+    },
+    "class_type": "LoraLoaderModelOnly",
+    "_meta": {
+      "title": "LoRA加载器（仅模型）"
+    }
+  },
+  "32": {
+    "inputs": {
+      "width": [
+        "37",
+        1
+      ],
+      "height": [
+        "38",
+        1
+      ],
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "空Latent图像"
+    }
+  },
+  "36": {
+    "inputs": {
+      "string": "512"
+    },
+    "class_type": "Simple String",
+    "_meta": {
+      "title": "宽度int"
+    }
+  },
+  "37": {
+    "inputs": {
+      "value": [
+        "36",
+        0
+      ]
+    },
+    "class_type": "ComfyNumberConvert",
+    "_meta": {
+      "title": "数字转换"
+    }
+  },
+  "38": {
+    "inputs": {
+      "value": [
+        "39",
+        0
+      ]
+    },
+    "class_type": "ComfyNumberConvert",
+    "_meta": {
+      "title": "数字转换"
+    }
+  },
+  "39": {
+    "inputs": {
+      "string": "512"
+    },
+    "class_type": "Simple String",
+    "_meta": {
+      "title": "高度int"
+    }
+  },
+  "40": {
+    "inputs": {
+      "string": [
+        "41",
+        0
+      ],
+      "find": "[prompt]",
+      "replace": [
+        "24",
+        0
+      ]
+    },
+    "class_type": "StringReplace",
+    "_meta": {
+      "title": "替换"
+    }
+  },
+  "41": {
+    "inputs": {
+      "value": "masterpiece, best quality, very aesthetic, [prompt]"
+    },
+    "class_type": "PrimitiveStringMultiline",
+    "_meta": {
+      "title": "字符串（多行）"
+    }
+  },
+  "42": {
+    "inputs": {
+      "string": [
+        "43",
+        0
+      ],
+      "find": "[prompt]",
+      "replace": [
+        "25",
+        0
+      ]
+    },
+    "class_type": "StringReplace",
+    "_meta": {
+      "title": "替换"
+    }
+  },
+  "43": {
+    "inputs": {
+      "value": "worst quality, low quality, score_1, score_2, score_3, jpeg artifacts, [prompt]"
+    },
+    "class_type": "PrimitiveStringMultiline",
+    "_meta": {
+      "title": "字符串（多行）"
+    }
+  },
+  "44": {
+    "inputs": {
+      "value": [
+        "45",
+        0
+      ]
+    },
+    "class_type": "ComfyNumberConvert",
+    "_meta": {
+      "title": "数字转换"
+    }
+  },
+  "45": {
+    "inputs": {
+      "string": "1"
+    },
+    "class_type": "Simple String",
+    "_meta": {
+      "title": "turbo模型强度"
+    }
+  },
+  "46": {
+    "inputs": {
+      "seed": -1
+    },
+    "class_type": "Seed (rgthree)",
+    "_meta": {
+      "title": "Seed (rgthree)"
+    }
+  }
+}

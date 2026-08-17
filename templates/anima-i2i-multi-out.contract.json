@@ -1,0 +1,60 @@
+{
+  "id": "anima-i2i-multi-out",
+  "title": "Anima 图生图多样张输出（仍是 1 张输入）",
+  "workflow": "anima-i2i-multi-out.json",
+  "prompt_style": "natural_en",
+  "prompt_hint": "Same as anima-i2i: natural English of the new action. Multiple SaveImage branches, one input image.",
+  "capabilities": {
+    "mode": ["i2i"],
+    "style": ["anime"],
+    "can": ["prompt", "pose_change", "lora_switch", "seed", "multi_output"],
+    "cannot": ["t2i", "upscale", "logo", "multi_input"]
+  },
+  "slots": {
+    "prompt": { "key": "prompt", "type": "text", "required": true, "node": "102", "field": "string" },
+    "negative": { "key": "negative", "type": "text", "required": false, "node": "106", "field": "string" },
+    "image": { "key": "image", "type": "image", "required": true, "node": "104", "field": "image" },
+    "pixel_k": { "key": "pixel_k", "type": "number", "required": false, "node": "109", "field": "string", "as_string": true },
+    "turbo_strength": { "key": "turbo_strength", "type": "number", "required": false, "node": "111", "field": "string", "as_string": true },
+    "seed": {
+      "key": "seed",
+      "type": "seed",
+      "required": false,
+      "injects": [
+        { "node": "51", "field": "seed" },
+        { "node": "95", "field": "seed" },
+        { "node": "96", "field": "seed" }
+      ]
+    },
+    "steps": { "key": "steps", "type": "number", "required": false, "node": "5", "field": "steps" },
+    "cfg": { "key": "cfg", "type": "number", "required": false, "node": "5", "field": "cfg" },
+    "denoise": { "key": "denoise", "type": "number", "required": false, "node": "5", "field": "denoise" }
+  },
+  "loras": [
+    {
+      "key": "quality",
+      "role": "quality",
+      "node": "100",
+      "nameField": "lora_name",
+      "strengthField": "strength_model",
+      "clipStrengthField": "strength_clip",
+      "default_name": "anima-base-1-masterpiece-v51.safetensors"
+    },
+    {
+      "key": "speed",
+      "role": "speed",
+      "node": "101",
+      "nameField": "lora_name",
+      "strengthNode": "111",
+      "strengthField": "string",
+      "default_name": "anima-turbo-lora-v0.2.safetensors"
+    }
+  ],
+  "models": {
+    "unet": { "key": "unet", "node": "2", "field": "unet_name" },
+    "clip": { "key": "clip", "node": "3", "field": "clip_name" },
+    "clip_type": { "key": "clip_type", "node": "3", "field": "type" },
+    "vae": { "key": "vae", "node": "1", "field": "vae_name" }
+  },
+  "notes": "Not 3 input images. Three output branches from one input."
+}

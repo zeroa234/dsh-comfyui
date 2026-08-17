@@ -1,0 +1,897 @@
+{
+  "1": {
+    "inputs": {
+      "vae_name": "qwen_image_vae.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "加载VAE"
+    }
+  },
+  "2": {
+    "inputs": {
+      "unet_name": "anima_baseV10.safetensors",
+      "weight_dtype": "default"
+    },
+    "class_type": "UNETLoader",
+    "_meta": {
+      "title": "UNet加载器"
+    }
+  },
+  "3": {
+    "inputs": {
+      "clip_name": "qwen_3_06b_base.safetensors",
+      "type": "stable_diffusion",
+      "device": "default"
+    },
+    "class_type": "CLIPLoader",
+    "_meta": {
+      "title": "加载CLIP"
+    }
+  },
+  "5": {
+    "inputs": {
+      "seed": [
+        "51",
+        0
+      ],
+      "steps": 8,
+      "cfg": 1,
+      "sampler_name": "sa_solver_pece",
+      "scheduler": "kl_optimal",
+      "denoise": 1,
+      "model": [
+        "24",
+        0
+      ],
+      "positive": [
+        "12",
+        0
+      ],
+      "negative": [
+        "12",
+        1
+      ],
+      "latent_image": [
+        "12",
+        2
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "K采样器"
+    }
+  },
+  "8": {
+    "inputs": {
+      "text": [
+        "74",
+        0
+      ],
+      "clip": [
+        "100",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP文本编码"
+    }
+  },
+  "9": {
+    "inputs": {
+      "text": [
+        "106",
+        0
+      ],
+      "clip": [
+        "100",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP文本编码"
+    }
+  },
+  "12": {
+    "inputs": {
+      "noise_mask": true,
+      "positive": [
+        "8",
+        0
+      ],
+      "negative": [
+        "9",
+        0
+      ],
+      "vae": [
+        "1",
+        0
+      ],
+      "pixels": [
+        "13",
+        0
+      ],
+      "mask": [
+        "13",
+        2
+      ]
+    },
+    "class_type": "InpaintModelConditioning",
+    "_meta": {
+      "title": "内补模型条件"
+    }
+  },
+  "13": {
+    "inputs": {
+      "layout": "left-right",
+      "custom_size": 0,
+      "object_image": [
+        "107",
+        0
+      ],
+      "base_image": [
+        "107",
+        0
+      ]
+    },
+    "class_type": "AILab_ICLoRAConcat",
+    "_meta": {
+      "title": "ICLoRA 拼接 (RMBG) 🖼️"
+    }
+  },
+  "19": {
+    "inputs": {
+      "images": [
+        "13",
+        0
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "预览图像"
+    }
+  },
+  "21": {
+    "inputs": {
+      "tile_size": 512,
+      "overlap": 64,
+      "temporal_size": 64,
+      "temporal_overlap": 8,
+      "samples": [
+        "5",
+        0
+      ],
+      "vae": [
+        "1",
+        0
+      ]
+    },
+    "class_type": "VAEDecodeTiled",
+    "_meta": {
+      "title": "VAE解码（分块）"
+    }
+  },
+  "22": {
+    "inputs": {
+      "images": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "预览图像"
+    }
+  },
+  "24": {
+    "inputs": {
+      "lllite_name": "anima-lllite-inpainting-v2.safetensors",
+      "strength": 1,
+      "start_percent": 0,
+      "end_percent": 1,
+      "preserve_wrapper": true,
+      "model": [
+        "100",
+        0
+      ],
+      "image": [
+        "13",
+        0
+      ],
+      "mask": [
+        "13",
+        2
+      ]
+    },
+    "class_type": "AnimaLLLiteApply_sdscripts",
+    "_meta": {
+      "title": "Apply Anima ControlNet-LLLite"
+    }
+  },
+  "29": {
+    "inputs": {
+      "target_w": [
+        "107",
+        3
+      ],
+      "target_h": [
+        "107",
+        4
+      ],
+      "crop_position": "right",
+      "offset": 0,
+      "interpolation": "lanczos",
+      "sharpening": 0,
+      "image": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "Crop Image TargetSize (JPS)",
+    "_meta": {
+      "title": "Crop Image TargetSize (JPS)"
+    }
+  },
+  "30": {
+    "inputs": {
+      "images": [
+        "29",
+        0
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "预览图像"
+    }
+  },
+  "51": {
+    "inputs": {
+      "seed": -1
+    },
+    "class_type": "Seed (rgthree)",
+    "_meta": {
+      "title": "Seed (rgthree)"
+    }
+  },
+  "55": {
+    "inputs": {
+      "text1": "split screen + anima-lllite-inpainting-v2",
+      "text2": "Reference Latent + AnimaEditV1",
+      "text3": "Reference Latent + lora_edit_ZeroTwo",
+      "size_base": "largest",
+      "text_color": "#000000",
+      "bg_color": "#FFFFFF",
+      "image1": [
+        "29",
+        0
+      ],
+      "image2": [
+        "63",
+        0
+      ],
+      "image3": [
+        "65",
+        0
+      ]
+    },
+    "class_type": "AILab_ImageCompare",
+    "_meta": {
+      "title": "图像比较 (RMBG) 🖼️🖼️"
+    }
+  },
+  "57": {
+    "inputs": {
+      "filename_prefix": "AnimaEdit - Test\\AnimaEdit - Test",
+      "images": [
+        "84",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "保存图像"
+    }
+  },
+  "58": {
+    "inputs": {
+      "lora_name": "lora_edit_ZeroTwo.safetensors",
+      "strength_model": 1,
+      "model": [
+        "100",
+        0
+      ]
+    },
+    "class_type": "LoraLoaderModelOnly",
+    "_meta": {
+      "title": "LoRA加载器（仅模型）"
+    }
+  },
+  "59": {
+    "inputs": {
+      "seed": [
+        "95",
+        0
+      ],
+      "steps": 8,
+      "cfg": 1,
+      "sampler_name": "sa_solver_pece",
+      "scheduler": "kl_optimal",
+      "denoise": 1,
+      "model": [
+        "60",
+        0
+      ],
+      "positive": [
+        "103",
+        0
+      ],
+      "negative": [
+        "68",
+        0
+      ],
+      "latent_image": [
+        "66",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "K采样器"
+    }
+  },
+  "60": {
+    "inputs": {
+      "model": [
+        "58",
+        0
+      ],
+      "latent": [
+        "66",
+        0
+      ]
+    },
+    "class_type": "ApplyCosmosReferenceLatent",
+    "_meta": {
+      "title": "Apply Cosmos Reference Latent"
+    }
+  },
+  "61": {
+    "inputs": {
+      "lora_name": "AnimaEditV1.safetensors",
+      "strength_model": 1,
+      "model": [
+        "100",
+        0
+      ]
+    },
+    "class_type": "LoraLoaderModelOnly",
+    "_meta": {
+      "title": "LoRA加载器（仅模型）"
+    }
+  },
+  "62": {
+    "inputs": {
+      "model": [
+        "61",
+        0
+      ],
+      "latent": [
+        "66",
+        0
+      ]
+    },
+    "class_type": "ApplyCosmosReferenceLatent",
+    "_meta": {
+      "title": "Apply Cosmos Reference Latent"
+    }
+  },
+  "63": {
+    "inputs": {
+      "samples": [
+        "59",
+        0
+      ],
+      "vae": [
+        "1",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE解码"
+    }
+  },
+  "64": {
+    "inputs": {
+      "seed": [
+        "96",
+        0
+      ],
+      "steps": 8,
+      "cfg": 1,
+      "sampler_name": "sa_solver_pece",
+      "scheduler": "kl_optimal",
+      "denoise": 1,
+      "model": [
+        "62",
+        0
+      ],
+      "positive": [
+        "103",
+        0
+      ],
+      "negative": [
+        "68",
+        0
+      ],
+      "latent_image": [
+        "66",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "K采样器"
+    }
+  },
+  "65": {
+    "inputs": {
+      "samples": [
+        "64",
+        0
+      ],
+      "vae": [
+        "1",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE解码"
+    }
+  },
+  "66": {
+    "inputs": {
+      "pixels": [
+        "107",
+        0
+      ],
+      "vae": [
+        "1",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE编码"
+    }
+  },
+  "68": {
+    "inputs": {
+      "text": [
+        "106",
+        0
+      ],
+      "clip": [
+        "100",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP文本编码"
+    }
+  },
+  "69": {
+    "inputs": {
+      "images": [
+        "63",
+        0
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "预览图像"
+    }
+  },
+  "70": {
+    "inputs": {
+      "images": [
+        "65",
+        0
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "预览图像"
+    }
+  },
+  "73": {
+    "inputs": {
+      "value": [
+        "102",
+        0
+      ]
+    },
+    "class_type": "PrimitiveStringMultiline",
+    "_meta": {
+      "title": "字符串（多行）"
+    }
+  },
+  "74": {
+    "inputs": {
+      "string": [
+        "75",
+        0
+      ],
+      "find": "[prompt]",
+      "replace": [
+        "73",
+        0
+      ]
+    },
+    "class_type": "StringReplace",
+    "_meta": {
+      "title": "替换"
+    }
+  },
+  "75": {
+    "inputs": {
+      "value": "masterpiece, best quality, very aesthetic, \n\n,split screen, multiple views, The image on the right is different - \n[prompt]"
+    },
+    "class_type": "PrimitiveStringMultiline",
+    "_meta": {
+      "title": "字符串（多行）"
+    }
+  },
+  "76": {
+    "inputs": {
+      "string": [
+        "77",
+        0
+      ],
+      "find": "[prompt]",
+      "replace": [
+        "73",
+        0
+      ]
+    },
+    "class_type": "StringReplace",
+    "_meta": {
+      "title": "替换"
+    }
+  },
+  "77": {
+    "inputs": {
+      "value": "masterpiece, best quality, very aesthetic,\n\n[prompt]"
+    },
+    "class_type": "PrimitiveStringMultiline",
+    "_meta": {
+      "title": "字符串（多行）"
+    }
+  },
+  "80": {
+    "inputs": {
+      "source": [
+        "76",
+        0
+      ]
+    },
+    "class_type": "PreviewAny",
+    "_meta": {
+      "title": "预览任意"
+    }
+  },
+  "81": {
+    "inputs": {
+      "source": [
+        "74",
+        0
+      ]
+    },
+    "class_type": "PreviewAny",
+    "_meta": {
+      "title": "预览任意"
+    }
+  },
+  "84": {
+    "inputs": {
+      "text_x": 10,
+      "text_y": 2,
+      "height": 48,
+      "font_size": 32,
+      "font_color": "white",
+      "label_color": "black",
+      "font": "FreeMono.ttf",
+      "text": [
+        "73",
+        0
+      ],
+      "direction": "down",
+      "image": [
+        "55",
+        0
+      ]
+    },
+    "class_type": "AddLabel",
+    "_meta": {
+      "title": "Add Label"
+    }
+  },
+  "89": {
+    "inputs": {
+      "text_x": 10,
+      "text_y": 2,
+      "height": 48,
+      "font_size": 32,
+      "font_color": "white",
+      "label_color": "black",
+      "font": "FreeMono.ttf",
+      "text": [
+        "73",
+        0
+      ],
+      "direction": "down",
+      "image": [
+        "21",
+        0
+      ]
+    },
+    "class_type": "AddLabel",
+    "_meta": {
+      "title": "Add Label"
+    }
+  },
+  "90": {
+    "inputs": {
+      "filename_prefix": "AnimaEdit - Test\\anima-lllite-inpainting-v2",
+      "images": [
+        "89",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "保存图像"
+    }
+  },
+  "91": {
+    "inputs": {
+      "text_x": 10,
+      "text_y": 2,
+      "height": 48,
+      "font_size": 32,
+      "font_color": "white",
+      "label_color": "black",
+      "font": "FreeMono.ttf",
+      "text": [
+        "73",
+        0
+      ],
+      "direction": "down",
+      "image": [
+        "63",
+        0
+      ]
+    },
+    "class_type": "AddLabel",
+    "_meta": {
+      "title": "Add Label"
+    }
+  },
+  "92": {
+    "inputs": {
+      "filename_prefix": "AnimaEdit - Test\\AnimaEditV1",
+      "images": [
+        "91",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "保存图像"
+    }
+  },
+  "93": {
+    "inputs": {
+      "text_x": 10,
+      "text_y": 2,
+      "height": 48,
+      "font_size": 32,
+      "font_color": "white",
+      "label_color": "black",
+      "font": "FreeMono.ttf",
+      "text": [
+        "73",
+        0
+      ],
+      "direction": "down",
+      "image": [
+        "65",
+        0
+      ]
+    },
+    "class_type": "AddLabel",
+    "_meta": {
+      "title": "Add Label"
+    }
+  },
+  "94": {
+    "inputs": {
+      "filename_prefix": "AnimaEdit - Test\\lora_edit_ZeroTwo",
+      "images": [
+        "93",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "保存图像"
+    }
+  },
+  "95": {
+    "inputs": {
+      "seed": 435875580895571
+    },
+    "class_type": "Seed (rgthree)",
+    "_meta": {
+      "title": "Seed (rgthree)"
+    }
+  },
+  "96": {
+    "inputs": {
+      "seed": 435875580895571
+    },
+    "class_type": "Seed (rgthree)",
+    "_meta": {
+      "title": "Seed (rgthree)"
+    }
+  },
+  "100": {
+    "inputs": {
+      "lora_name": "anima-base-1-masterpiece-v51.safetensors",
+      "strength_model": 1,
+      "strength_clip": 1,
+      "model": [
+        "101",
+        0
+      ],
+      "clip": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "LoraLoader",
+    "_meta": {
+      "title": "加载LoRA"
+    }
+  },
+  "101": {
+    "inputs": {
+      "lora_name": "anima-turbo-lora-v0.2.safetensors",
+      "strength_model": [
+        "110",
+        0
+      ],
+      "model": [
+        "2",
+        0
+      ]
+    },
+    "class_type": "LoraLoaderModelOnly",
+    "_meta": {
+      "title": "LoRA加载器（仅模型）"
+    }
+  },
+  "102": {
+    "inputs": {
+      "string": "{{tags}}, {{natural language}}"
+    },
+    "class_type": "Simple String",
+    "_meta": {
+      "title": "正面提示词"
+    }
+  },
+  "103": {
+    "inputs": {
+      "text": [
+        "76",
+        0
+      ],
+      "clip": [
+        "100",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP文本编码"
+    }
+  },
+  "104": {
+    "inputs": {
+      "image": ""
+    },
+    "class_type": "ETN_LoadImageBase64",
+    "_meta": {
+      "title": "Load Image (Base64)"
+    }
+  },
+  "106": {
+    "inputs": {
+      "string": "worst quality, low quality, score_1, score_2, score_3"
+    },
+    "class_type": "Simple String",
+    "_meta": {
+      "title": "负面提示词"
+    }
+  },
+  "107": {
+    "inputs": {
+      "aspect_ratio": "original",
+      "proportional_width": 1,
+      "proportional_height": 1,
+      "fit": "letterbox",
+      "method": "lanczos",
+      "round_to_multiple": "8",
+      "scale_to_side": "total_pixel(kilo pixel)",
+      "scale_to_length": [
+        "108",
+        1
+      ],
+      "background_color": "#000000",
+      "image": [
+        "104",
+        0
+      ]
+    },
+    "class_type": "LayerUtility: ImageScaleByAspectRatio V2",
+    "_meta": {
+      "title": "图层工具：按宽高比缩放 V2"
+    }
+  },
+  "108": {
+    "inputs": {
+      "value": [
+        "109",
+        0
+      ]
+    },
+    "class_type": "ComfyNumberConvert",
+    "_meta": {
+      "title": "数字转换"
+    }
+  },
+  "109": {
+    "inputs": {
+      "string": "920"
+    },
+    "class_type": "Simple String",
+    "_meta": {
+      "title": "Simple String"
+    }
+  },
+  "110": {
+    "inputs": {
+      "value": [
+        "111",
+        0
+      ]
+    },
+    "class_type": "ComfyNumberConvert",
+    "_meta": {
+      "title": "数字转换"
+    }
+  },
+  "111": {
+    "inputs": {
+      "string": "1"
+    },
+    "class_type": "Simple String",
+    "_meta": {
+      "title": "lora强度"
+    }
+  }
+}

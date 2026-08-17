@@ -1,0 +1,7 @@
+# dsh-comfyui bundle patch
+- insert:
+    - id: dsh-comfyui
+      name: '@dsh-external/dsh-comfyui'
+      config:
+        baseUrl: 'http://192.168.0.103:8188'
+        outputDir: 'E:\\agent\\output\\comfyui'

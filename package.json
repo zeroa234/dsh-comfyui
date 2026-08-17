@@ -1,0 +1,60 @@
+{
+  "name": "@dsh-external/dsh-comfyui",
+  "version": "0.1.0",
+  "description": "ComfyUI 驱动器（AI-first 合同制）：模型只见合同槽、不见工作流 JSON。文生图/图生图/文生视频/图生视频模板，双重预检防幻觉，官方/自定义节点活体判定。",
+  "type": "module",
+  "main": "./lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zeroa234/dsh-comfyui.git"
+  },
+  "homepage": "https://github.com/zeroa234/dsh-comfyui",
+  "bugs": {
+    "url": "https://github.com/zeroa234/dsh-comfyui/issues"
+  },
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "templates",
+    "cordis.patch.yml"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-runtime",
+        "@deepseek-ai/dsh-client-ui-slots"
+      ],
+      "platform": "web"
+    }
+  },
+  "license": "BSD-3-Clause",
+  "peerDependencies": {
+    "@deepseek-ai/cordis": ">=4.0.0-rc <5",
+    "@deepseek-ai/dsh-tools": ">=0.0.1-rc <2",
+    "@deepseek-ai/schemastery": "^3.18.0"
+  },
+  "scripts": {
+    "test": "node --test tests/*.test.js"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "agent-tools",
+    "comfyui",
+    "image",
+    "video",
+    "text-to-image",
+    "image-to-image",
+    "text-to-video",
+    "image-to-video",
+    "ai-agents"
+  ]
+}

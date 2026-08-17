@@ -1,0 +1,51 @@
+{
+  "id": "anima-i2i",
+  "title": "Anima 图生图（大改动作/画风）",
+  "workflow": "anima-i2i.json",
+  "prompt_style": "natural_en",
+  "prompt_hint": "Describe the NEW action after the edit in full English sentences (pose, sex act, expression). Keep identity cues. Do not use 1girl tags.",
+  "capabilities": {
+    "mode": ["i2i"],
+    "style": ["anime"],
+    "can": ["prompt", "pose_change", "style_change", "lora_switch", "seed"],
+    "cannot": ["t2i", "upscale", "logo", "photoreal_checkpoint"]
+  },
+  "slots": {
+    "prompt": { "key": "prompt", "type": "text", "required": true, "node": "102", "field": "string" },
+    "negative": { "key": "negative", "type": "text", "required": false, "node": "106", "field": "string" },
+    "image": { "key": "image", "type": "image", "required": true, "node": "104", "field": "image" },
+    "pixel_k": { "key": "pixel_k", "type": "number", "required": false, "node": "112", "field": "string", "as_string": true },
+    "turbo_strength": { "key": "turbo_strength", "type": "number", "required": false, "node": "110", "field": "string", "as_string": true },
+    "seed": { "key": "seed", "type": "seed", "required": false, "node": "51", "field": "seed" },
+    "steps": { "key": "steps", "type": "number", "required": false, "node": "5", "field": "steps" },
+    "cfg": { "key": "cfg", "type": "number", "required": false, "node": "5", "field": "cfg" },
+    "denoise": { "key": "denoise", "type": "number", "required": false, "node": "5", "field": "denoise" }
+  },
+  "loras": [
+    {
+      "key": "quality",
+      "role": "quality",
+      "node": "100",
+      "nameField": "lora_name",
+      "strengthField": "strength_model",
+      "clipStrengthField": "strength_clip",
+      "default_name": "anima-base-1-masterpiece-v51.safetensors"
+    },
+    {
+      "key": "speed",
+      "role": "speed",
+      "node": "101",
+      "nameField": "lora_name",
+      "strengthNode": "110",
+      "strengthField": "string",
+      "default_name": "anima-turbo-lora-v0.2.safetensors"
+    }
+  ],
+  "models": {
+    "unet": { "key": "unet", "node": "2", "field": "unet_name" },
+    "clip": { "key": "clip", "node": "3", "field": "clip_name" },
+    "clip_type": { "key": "clip_type", "node": "3", "field": "type" },
+    "vae": { "key": "vae", "node": "1", "field": "vae_name" }
+  },
+  "notes": "Image: pass a local file path. Host uploads or base64-injects; the model must never put pixels in JSON. AnimaLLLiteApply is aliased to _sdscripts at submit."
+}
